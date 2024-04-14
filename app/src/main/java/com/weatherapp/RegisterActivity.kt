@@ -37,7 +37,7 @@ import androidx.compose.ui.unit.sp
 import com.weatherapp.ui.theme.WeatherAppTheme
 
 
-class LoginActivity : ComponentActivity() {
+class RegisterActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
@@ -47,7 +47,7 @@ class LoginActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    LoginPage()
+                    RegisterPage()
                 }
             }
         }
@@ -57,15 +57,19 @@ class LoginActivity : ComponentActivity() {
 @OptIn(ExperimentalMaterial3Api::class)
 @Preview(showBackground = true)
 @Composable
-fun LoginPage(modifier: Modifier = Modifier) {
-    
+fun RegisterPage(modifier: Modifier = Modifier) {
+
+    var name by rememberSaveable { mutableStateOf("") }
     var email by rememberSaveable { mutableStateOf("") }
+
     var password by rememberSaveable { mutableStateOf("") }
+    var conPassword by rememberSaveable { mutableStateOf("") }
+
     val activity = LocalContext.current as? Activity
     Column(
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = CenterHorizontally,
-                modifier = Modifier.padding(16.dp),
+        modifier = Modifier.padding(16.dp),
     ) {
         Text(
             text = "Bem-vindo/a!",
@@ -81,6 +85,14 @@ fun LoginPage(modifier: Modifier = Modifier) {
         )
         Box {
             OutlinedTextField(
+                value = name,
+                label = { Text(text = "Digite seu nome") },
+                modifier = Modifier.fillMaxWidth(),
+                onValueChange = { name = it },
+            )
+        }
+        Box {
+            OutlinedTextField(
                 value = password,
                 label = { Text(text = "Digite sua senha") },
                 modifier = Modifier.fillMaxWidth(),
@@ -88,38 +100,32 @@ fun LoginPage(modifier: Modifier = Modifier) {
                 visualTransformation = PasswordVisualTransformation()
             )
         }
+        Box {
+            OutlinedTextField(
+                value = conPassword,
+                label = { Text(text = "Confirme sua senha") },
+                modifier = Modifier.fillMaxWidth(),
+                onValueChange = { conPassword = it },
+                visualTransformation = PasswordVisualTransformation()
+            )
+        }
         Spacer(modifier = Modifier.size(24.dp))
         Row(modifier = modifier) {
 
             Button(
-                enabled = email.isNotEmpty() && password.isNotEmpty(),
+                enabled = email.isNotEmpty()&& name.isNotEmpty() && password.isNotEmpty()&& conPassword.isNotEmpty(),
 
                 onClick = {
-                    Toast.makeText(activity, "Login OK!", Toast.LENGTH_LONG).show()
-                    activity?.startActivity(
-                        Intent(activity, MainActivity::class.java).setFlags(
-                            FLAG_ACTIVITY_SINGLE_TOP
-                        )
-                    )
+                    Toast.makeText(activity, "Login OK!", Toast.LENGTH_LONG).show();
+                    activity?.finish();
                 }
             ) {
                 Text(text = "Login")
             }
             Spacer(modifier = Modifier.size(24.dp))
-            Button(
-                onClick = {                 activity?.startActivity(
-                    Intent(activity, RegisterActivity::class.java).setFlags(
-                        FLAG_ACTIVITY_SINGLE_TOP
-                    )
-                )}
-            ) {
 
-                Text(text = "Registrar")
-
-            }
-            Spacer(modifier = Modifier.size(24.dp))
             Button(
-                onClick = { email = ""; password = "" }
+                onClick = { email = ""; password = ""; conPassword=""; name = ""; }
             ) {
 
                 Text(text = "Limpar")
@@ -129,3 +135,4 @@ fun LoginPage(modifier: Modifier = Modifier) {
         }
     }
 }
+
