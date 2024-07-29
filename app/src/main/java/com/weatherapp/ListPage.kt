@@ -23,7 +23,7 @@ fun ListPage() {
             .wrapContentSize(Alignment.Center)
     ) {
         Text(
-            text = "Home",
+            text = "List",
             fontWeight = FontWeight.Bold,
             color = Color.White,
             modifier = Modifier.align(Alignment.CenterHorizontally),

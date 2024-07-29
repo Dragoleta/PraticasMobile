@@ -23,7 +23,7 @@ fun MapPage() {
     .wrapContentSize(Alignment.Center)
     ) {
         Text(
-            text = "Home",
+            text = "A maps",
             fontWeight = FontWeight.Bold,
             color = Color.White,
             modifier = Modifier.align(Alignment.CenterHorizontally),
