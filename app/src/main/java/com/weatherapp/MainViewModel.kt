@@ -11,16 +11,9 @@ import com.weatherapp.model.City
 import com.weatherapp.model.User
 
 class MainViewModel : ViewModel(),  FBDatabase.Listener {
+
     private val _user = mutableStateOf (User("", ""))
 
-    private val listener = FirebaseAuth.AuthStateListener {
-            firebaseAuth ->
-        _loggedIn.value = firebaseAuth.currentUser != null
-    }
-    init {
-        listener.onAuthStateChanged(Firebase.auth)
-        Firebase.auth.addAuthStateListener(listener)
-    }
 
     private val _cities = getCities().toMutableStateList()
 
@@ -31,6 +24,15 @@ class MainViewModel : ViewModel(),  FBDatabase.Listener {
 
     val loggedIn : Boolean
         get() = _loggedIn.value
+
+    private val listener = FirebaseAuth.AuthStateListener {
+            firebaseAuth -> _loggedIn.value = firebaseAuth.currentUser != null
+    }
+
+    init {
+        listener.onAuthStateChanged(Firebase.auth)
+        Firebase.auth.addAuthStateListener(listener)
+    }
 
 
     val cities : List<City>
@@ -47,6 +49,6 @@ class MainViewModel : ViewModel(),  FBDatabase.Listener {
     }
 }
 
-fun getCities() = List(30) { i ->
+fun getCities() = List(0) { i ->
     City(name = "Cidade $i", weather = "Carregando clima...")
 }

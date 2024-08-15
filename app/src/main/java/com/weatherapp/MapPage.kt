@@ -39,6 +39,8 @@ fun MapPage(modifier: Modifier = Modifier,
     val caruaru = LatLng(-8.27, -35.98)
     val joaopessoa = LatLng(-7.12, -34.84)
     val camPosState = rememberCameraPositionState ()
+
+
     GoogleMap(modifier = Modifier.fillMaxSize(),
         onMapClick = { fbDB.add(City( name = it.toString()  , weather = "2",location = it)) },
         cameraPositionState = camPosState, properties = MapProperties(isMyLocationEnabled = hasLocationPermission),
