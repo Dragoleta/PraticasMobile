@@ -1,5 +1,6 @@
 package com.weatherapp
 
+import android.content.Context
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -15,7 +16,10 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.sp
 
 @Composable
-fun MapPage() {
+fun MapPage(            modifier: Modifier = Modifier,
+                        viewModel: MainViewModel,
+                        context: Context
+) {
     Column(
     modifier = Modifier
     .fillMaxSize()
