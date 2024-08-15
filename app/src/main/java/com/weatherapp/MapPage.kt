@@ -18,12 +18,14 @@ import com.google.maps.android.compose.MapUiSettings
 import com.google.maps.android.compose.Marker
 import com.google.maps.android.compose.MarkerState
 import com.google.maps.android.compose.rememberCameraPositionState
+import com.weatherapp.db.FBDatabase
+import com.weatherapp.model.City
 
 
 @Composable
-fun MapPage(            modifier: Modifier = Modifier,
-                        viewModel: MainViewModel,
-                        context: Context
+fun MapPage(modifier: Modifier = Modifier,
+            viewModel: MainViewModel,
+            context: Context,
 ) {
     val hasLocationPermission by remember {
     mutableStateOf(
@@ -32,13 +34,14 @@ fun MapPage(            modifier: Modifier = Modifier,
                 PackageManager.PERMISSION_GRANTED
     )
 }
-
+    val fbDB = remember { FBDatabase (viewModel) }
     val recife = LatLng(-8.05, -34.9)
     val caruaru = LatLng(-8.27, -35.98)
     val joaopessoa = LatLng(-7.12, -34.84)
     val camPosState = rememberCameraPositionState ()
     GoogleMap(modifier = Modifier.fillMaxSize(),
-        onMapClick = { viewModel.add("Nova cidade", location = it) },cameraPositionState = camPosState, properties = MapProperties(isMyLocationEnabled = hasLocationPermission),
+        onMapClick = { fbDB.add(City( name = it.toString()  , weather = "2",location = it)) },
+        cameraPositionState = camPosState, properties = MapProperties(isMyLocationEnabled = hasLocationPermission),
         uiSettings = MapUiSettings(myLocationButtonEnabled = true)
 
         ) {

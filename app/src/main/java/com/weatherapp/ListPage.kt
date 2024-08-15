@@ -19,10 +19,12 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.weatherapp.db.FBDatabase
 import com.weatherapp.model.City
 
 
@@ -60,10 +62,12 @@ fun CityItem(
 @Composable
 fun ListPage(
     modifier: Modifier = Modifier,
-                         viewModel: MainViewModel,
-                         context: Context
+    viewModel: MainViewModel,
+    context: Context
 ) {
     val cityList = viewModel.cities
+    val fbDB = remember { FBDatabase (viewModel) }
+
     LazyColumn(
         modifier = Modifier
             .fillMaxSize()
@@ -71,7 +75,7 @@ fun ListPage(
     ) {
         items(cityList) { city ->
             CityItem(city = city, onClose = {
-                viewModel.remove(city)
+                fbDB.remove(city)
             }, onClick = {
                 Toast.makeText(context, "Opened a city!", Toast.LENGTH_LONG).show()
             })

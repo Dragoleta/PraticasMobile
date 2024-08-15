@@ -29,8 +29,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import com.google.android.gms.maps.model.LatLng
 import com.google.firebase.Firebase
 import com.google.firebase.auth.auth
+import com.weatherapp.db.FBDatabase
+import com.weatherapp.model.City
 import com.weatherapp.ui.CityDialog
 import com.weatherapp.ui.nav.BottomNavBar
 import com.weatherapp.ui.nav.BottomNavItem
@@ -46,8 +49,8 @@ class MainActivity : ComponentActivity() {
             val navController = rememberNavController()
             val viewModel : MainViewModel by viewModels()
             var showDialog by remember { mutableStateOf(false)
-
-            }
+                }
+            val fbDB = remember { FBDatabase (viewModel)}
             val context = LocalContext.current
             val currentRoute = navController.currentBackStackEntryAsState()
             val showButton = currentRoute.value?.destination?.route != BottomNavItem.MapPage.route
@@ -57,7 +60,7 @@ class MainActivity : ComponentActivity() {
                 if (showDialog) CityDialog(
                 onDismiss = { showDialog = false },
                 onConfirm = { city ->
-                    if (city.isNotBlank()) viewModel.add(city)
+                    if (city.isNotBlank()) fbDB.add(City( name = city  , weather = "0",location = LatLng(0.0,-0.0)))
                     showDialog = false
                 })
                 LaunchedEffect(viewModel.loggedIn) {
