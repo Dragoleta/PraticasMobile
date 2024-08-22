@@ -42,7 +42,10 @@ fun MapPage(modifier: Modifier = Modifier,
 
 
     GoogleMap(modifier = Modifier.fillMaxSize(),
-        onMapClick = { fbDB.add(City( name = it.toString()  , weather = "2",location = it)) },
+        onMapClick = { fbDB.add(City( name = buildString (
+                                append("City: ")
+                                append(it.lang)
+        )  , weather = "2", location = it)) },
         cameraPositionState = camPosState, properties = MapProperties(isMyLocationEnabled = hasLocationPermission),
         uiSettings = MapUiSettings(myLocationButtonEnabled = true)
 
