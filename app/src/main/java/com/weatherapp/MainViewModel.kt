@@ -15,7 +15,7 @@ class MainViewModel : ViewModel(),  FBDatabase.Listener {
     private val _user = mutableStateOf (User("", ""))
 
 
-    private val _cities = getCities().toMutableStateList()
+    private val _cities = mutableStateListof<City>()
 
     val user : User
         get() = _user.value
