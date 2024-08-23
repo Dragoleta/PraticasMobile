@@ -34,6 +34,8 @@ fun MapPage(modifier: Modifier = Modifier,
                 PackageManager.PERMISSION_GRANTED
     )
 }
+
+    // TODO: Change fbDB to be passed as a parameter and not be reinstacialized
     val fbDB = remember { FBDatabase (viewModel) }
     val recife = LatLng(-8.05, -34.9)
     val caruaru = LatLng(-8.27, -35.98)
