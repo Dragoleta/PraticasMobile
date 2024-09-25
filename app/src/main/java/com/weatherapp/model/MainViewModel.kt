@@ -1,18 +1,18 @@
 package com.weatherapp.model
 
-import androidx.compose.runtime.mutableStateListOf
+import androidx.compose.runtime.mutableStateMapOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import com.google.firebase.Firebase
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.auth
-import com.weatherapp.db.FBDatabase
+import com.weatherapp.db.repo.Repository
 
-class MainViewModel : ViewModel(),  FBDatabase.Listener {
+class MainViewModel : ViewModel(), Repository.Listener {
 
     private val _user = mutableStateOf (User("", ""))
 
-    private val _cities = mutableStateListOf<City>()
+    private val _cities = mutableStateMapOf<String, City>()
 
     val user : User
         get() = _user.value
@@ -31,16 +31,9 @@ class MainViewModel : ViewModel(),  FBDatabase.Listener {
         Firebase.auth.addAuthStateListener(listener)
     }
 
-    val cities : List<City>
-        get() = _cities
+    val cities : List<City> get() = _cities.values.toList()
 
-    override fun onUserLoaded(user: User) {
-        _user.value = user
-    }
-    override fun onCityAdded(city: City) {
-        _cities.add(city)
-    }
-    override fun onCityRemoved(city: City) {
-        _cities.remove(city)
-    }
+    override fun onUserLoaded(user: User) { _user.value = user }
+    override fun onCityAdded(city: City) { _cities[city.name] = city }
+    override fun onCityRemoved(city: City) { _cities.remove(city.name) }
 }

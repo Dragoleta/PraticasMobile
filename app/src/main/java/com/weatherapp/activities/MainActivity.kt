@@ -33,7 +33,7 @@ import com.google.android.gms.maps.model.LatLng
 import com.google.firebase.Firebase
 import com.google.firebase.auth.auth
 import com.weatherapp.model.MainViewModel
-import com.weatherapp.db.FBDatabase
+import com.weatherapp.db.repo.Repository
 import com.weatherapp.model.City
 import com.weatherapp.ui.CityDialog
 import com.weatherapp.ui.nav.BottomNavBar
@@ -47,23 +47,26 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
+
             val navController = rememberNavController()
             val viewModel : MainViewModel by viewModels()
             var showDialog by remember { mutableStateOf(false)
                 }
-            val fbDB = remember { FBDatabase (viewModel)}
+            val repo = remember { Repository(viewModel) }
             val context = LocalContext.current
             val currentRoute = navController.currentBackStackEntryAsState()
             val showButton = currentRoute.value?.destination?.route != BottomNavItem.MapPage.route
             val launcher = rememberLauncherForActivityResult(contract = ActivityResultContracts.RequestPermission(), onResult = {} )
+
             WeatherAppTheme {
 
                 if (showDialog) CityDialog(
                 onDismiss = { showDialog = false },
-                onConfirm = { city ->
-                    if (city.isNotBlank()) fbDB.add(City( name = city  , weather = "0",location = LatLng(0.0,-0.0)))
+                onConfirm = { cityName ->
+                    if (cityName.isNotBlank()) repo.addCity(name = cityName)
                     showDialog = false
                 })
+
                 LaunchedEffect(viewModel.loggedIn) {
                     if (!viewModel.loggedIn) {
                         // Access the context and cast it to Activity to finish it
@@ -100,7 +103,7 @@ class MainActivity : ComponentActivity() {
                         innerPadding ->
                     Box(modifier = Modifier.padding(innerPadding)) {
                         launcher.launch(Manifest.permission.ACCESS_FINE_LOCATION)
-                        MainNavHost(navController = navController, viewModel = viewModel, context = context, fbDB = fbDB)
+                        MainNavHost(navController = navController, viewModel = viewModel, context = context, repo = repo)
                     }
                 }
             }

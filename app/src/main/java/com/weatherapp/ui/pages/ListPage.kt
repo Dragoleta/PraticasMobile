@@ -24,7 +24,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.weatherapp.model.MainViewModel
-import com.weatherapp.db.FBDatabase
+import com.weatherapp.db.repo.Repository
 import com.weatherapp.model.City
 
 
@@ -66,7 +66,7 @@ fun ListPage(
     modifier: Modifier = Modifier,
     viewModel: MainViewModel,
     context: Context,
-    fbDB: FBDatabase
+    repo: Repository
 ) {
     val cityList = viewModel.cities
 
@@ -77,7 +77,7 @@ fun ListPage(
     ) {
         items(cityList) { city ->
             CityItem(city = city, onClose = {
-                fbDB.remove(city)
+                repo.remove(city)
             }, onClick = {
                 Toast.makeText(context, "Opened a city!", Toast.LENGTH_LONG).show()
             })
