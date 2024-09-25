@@ -19,9 +19,7 @@ import com.google.maps.android.compose.Marker
 import com.google.maps.android.compose.MarkerState
 import com.google.maps.android.compose.rememberCameraPositionState
 import com.weatherapp.model.MainViewModel
-import com.weatherapp.db.FBDatabase
 import com.weatherapp.db.repo.Repository
-import com.weatherapp.model.City
 
 
 @Composable
@@ -47,7 +45,7 @@ fun MapPage(modifier: Modifier = Modifier,
 
     GoogleMap(modifier = modifier.fillMaxSize(),
         onMapClick = {
-            repo.addCityLoc(lat = it.latitude, lng = it.longitude)
+            repo.addCity(lat = it.latitude, lng = it.longitude)
         },
         cameraPositionState = camPosState,
         properties = MapProperties(isMyLocationEnabled = hasLocationPermission),
