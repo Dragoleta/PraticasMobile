@@ -26,6 +26,7 @@ import com.weatherapp.model.City
 fun MapPage(modifier: Modifier = Modifier,
             viewModel: MainViewModel,
             context: Context,
+            fbDB: FBDatabase
 ) {
     val hasLocationPermission by remember {
     mutableStateOf(
@@ -36,21 +37,22 @@ fun MapPage(modifier: Modifier = Modifier,
 }
 
     // TODO: Change fbDB to be passed as a parameter and not be reinstacialized
-    val fbDB = remember { FBDatabase (viewModel) }
     val recife = LatLng(-8.05, -34.9)
     val caruaru = LatLng(-8.27, -35.98)
     val joaopessoa = LatLng(-7.12, -34.84)
     val camPosState = rememberCameraPositionState ()
 
 
-    GoogleMap(modifier = Modifier.fillMaxSize(),
-        onMapClick = { fbDB.add(City( name = buildString (
-                                append("City: ")
-                                append(it.lang)
-        )  , weather = "2", location = it)) },
-        cameraPositionState = camPosState, properties = MapProperties(isMyLocationEnabled = hasLocationPermission),
+    GoogleMap(modifier = modifier.fillMaxSize(),
+        onMapClick = { fbDB.add(City( name = buildString {
+            append("City: ")
+            append(it.latitude)
+        },
+        weather = "2",
+        location = it)) },
+        cameraPositionState = camPosState,
+        properties = MapProperties(isMyLocationEnabled = hasLocationPermission),
         uiSettings = MapUiSettings(myLocationButtonEnabled = true)
-
         ) {
         viewModel.cities.forEach {
             if (it.location != null) {
