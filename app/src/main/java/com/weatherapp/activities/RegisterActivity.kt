@@ -1,4 +1,4 @@
-package com.weatherapp
+package com.weatherapp.activities
 
 import android.app.Activity
 import android.os.Bundle

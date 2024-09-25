@@ -1,4 +1,4 @@
-package com.weatherapp
+package com.weatherapp.activities
 
 import android.Manifest
 import android.app.Activity
@@ -32,6 +32,7 @@ import androidx.navigation.compose.rememberNavController
 import com.google.android.gms.maps.model.LatLng
 import com.google.firebase.Firebase
 import com.google.firebase.auth.auth
+import com.weatherapp.model.MainViewModel
 import com.weatherapp.db.FBDatabase
 import com.weatherapp.model.City
 import com.weatherapp.ui.CityDialog

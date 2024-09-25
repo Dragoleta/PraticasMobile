@@ -1,4 +1,4 @@
-package com.weatherapp
+package com.weatherapp.ui.pages
 
 import android.content.Context
 import android.widget.Toast
@@ -23,6 +23,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.weatherapp.model.MainViewModel
 import com.weatherapp.db.FBDatabase
 import com.weatherapp.model.City
 
@@ -48,9 +49,11 @@ fun CityItem(
             Text(modifier = Modifier,
                 text = city.name,
                 fontSize = 24.sp)
-            Text(modifier = Modifier,
-                text = city.weather,
-                fontSize = 16.sp)
+            city.weather?.let {
+                Text(modifier = Modifier,
+                    text = it,
+                    fontSize = 16.sp)
+            }
         }
         IconButton(onClick = onClose) {
             Icon(Icons.Filled.Close, contentDescription = "Close")

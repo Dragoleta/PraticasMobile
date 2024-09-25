@@ -1,4 +1,4 @@
-package com.weatherapp
+package com.weatherapp.model
 
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
@@ -7,8 +7,6 @@ import com.google.firebase.Firebase
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.auth
 import com.weatherapp.db.FBDatabase
-import com.weatherapp.model.City
-import com.weatherapp.model.User
 
 class MainViewModel : ViewModel(),  FBDatabase.Listener {
 

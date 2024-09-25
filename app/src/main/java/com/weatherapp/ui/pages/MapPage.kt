@@ -1,4 +1,4 @@
-package com.weatherapp
+package com.weatherapp.ui.pages
 
 import android.Manifest
 import android.content.Context
@@ -18,6 +18,7 @@ import com.google.maps.android.compose.MapUiSettings
 import com.google.maps.android.compose.Marker
 import com.google.maps.android.compose.MarkerState
 import com.google.maps.android.compose.rememberCameraPositionState
+import com.weatherapp.model.MainViewModel
 import com.weatherapp.db.FBDatabase
 import com.weatherapp.model.City
 
