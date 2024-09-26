@@ -36,4 +36,8 @@ class MainViewModel : ViewModel(), Repository.Listener {
     override fun onUserLoaded(user: User) { _user.value = user }
     override fun onCityAdded(city: City) { _cities[city.name] = city }
     override fun onCityRemoved(city: City) { _cities.remove(city.name) }
+    override fun onCityUpdated(city: City) {
+        _cities.remove(city.name)
+        _cities[city.name] = city.copy()
+    }
 }

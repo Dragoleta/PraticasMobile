@@ -49,11 +49,9 @@ fun CityItem(
             Text(modifier = Modifier,
                 text = city.name,
                 fontSize = 24.sp)
-            city.weather?.let {
-                Text(modifier = Modifier,
-                    text = it,
-                    fontSize = 16.sp)
-            }
+            Text(modifier = Modifier,
+                text = city.weather?.desc?: "Loading...",
+                fontSize = 16.sp)
         }
         IconButton(onClick = onClose) {
             Icon(Icons.Filled.Close, contentDescription = "Close")
@@ -76,9 +74,13 @@ fun ListPage(
             .padding(8.dp)
     ) {
         items(cityList) { city ->
+            if (city.weather == null) {
+                repo.loadWeather(city)
+            }
             CityItem(city = city, onClose = {
                 repo.remove(city)
-            }, onClick = {
+            },
+            onClick = {
                 Toast.makeText(context, "Opened a city!", Toast.LENGTH_LONG).show()
             })
         }
