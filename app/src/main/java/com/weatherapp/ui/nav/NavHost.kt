@@ -10,8 +10,7 @@ import com.weatherapp.ui.pages.HomePage
 import com.weatherapp.ui.pages.ListPage
 import com.weatherapp.model.MainViewModel
 import com.weatherapp.ui.pages.MapPage
-import com.weatherapp.db.FBDatabase
-import com.weatherapp.db.repo.Repository
+import com.weatherapp.repo.Repository
 
 @Composable
 fun MainNavHost(navController: NavHostController, viewModel: MainViewModel,
@@ -25,7 +24,7 @@ fun MainNavHost(navController: NavHostController, viewModel: MainViewModel,
             HomePage(viewModel = viewModel, modifier = modifier, context = context)
         }
         composable(route = BottomNavItem.ListPage.route) {
-            ListPage(viewModel = viewModel, modifier = modifier, context = context,  repo = repo)
+            ListPage(viewModel = viewModel, modifier = modifier, context = context,  repo = repo, navController = navController)
         }
         composable(route = BottomNavItem.MapPage.route) {
             MapPage(viewModel = viewModel, modifier = modifier, context = context,  repo = repo)

@@ -23,9 +23,11 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavHostController
 import com.weatherapp.model.MainViewModel
-import com.weatherapp.db.repo.Repository
+import com.weatherapp.repo.Repository
 import com.weatherapp.model.City
+import com.weatherapp.ui.nav.BottomNavItem
 
 
 @Composable
@@ -64,7 +66,8 @@ fun ListPage(
     modifier: Modifier = Modifier,
     viewModel: MainViewModel,
     context: Context,
-    repo: Repository
+    repo: Repository,
+    navController: NavHostController
 ) {
     val cityList = viewModel.cities
 
@@ -81,7 +84,15 @@ fun ListPage(
                 repo.remove(city)
             },
             onClick = {
-                Toast.makeText(context, "Opened a city!", Toast.LENGTH_LONG).show()
+                viewModel.city = city
+                repo.loadForecast(city)
+                navController.navigate(BottomNavItem.HomePage.route) {
+                    navController.graph.startDestinationRoute?.let {
+                        popUpTo(it) { saveState = true }
+                        restoreState = true
+                    }
+                    launchSingleTop = true
+                }
             })
         }
     }
