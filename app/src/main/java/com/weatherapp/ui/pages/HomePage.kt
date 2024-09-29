@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AccountBox
 import androidx.compose.material.icons.filled.LocationOn
@@ -50,14 +51,13 @@ fun HomePage(
                     fontSize = 20.sp)
             }
         }
-
         if (viewModel.city == null || viewModel.city!!.forecast == null) return
 
-
         LazyColumn {
-//            items(viewModel.city!!.forecast) { forecast ->
-//                ForecastItem(forecast, onClick = { }, modifier = modifier)
-//            }
+            items(viewModel.city!!.forecast!!) {
+                forecast -> ForecastItem(forecast, onClick = { }, modifier = modifier)
+            }
+
         }
 
     }

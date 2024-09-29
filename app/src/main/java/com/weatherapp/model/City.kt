@@ -9,5 +9,5 @@ data class City(
     var weather: Weather? = null,
     var imgUrl: String? = null,
     var bitmap: Bitmap? = null,
-    var forecast: Forecast? = null
+    var forecast: List<Forecast>? = null
 )
