@@ -28,7 +28,6 @@ import java.text.DecimalFormat
 fun HomePage(
     modifier: Modifier = Modifier,
     viewModel: MainViewModel,
-    context: Context
 ) {
     Column {
         Row {

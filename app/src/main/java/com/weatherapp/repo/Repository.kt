@@ -55,7 +55,7 @@ class Repository(private var listener: Listener): FBDatabase.Listener {
                     tempMax = it.day?.maxtemp_c?:-1.0,
                     imgUrl = ("https:" + it.day?.condition?.icon)
                 )
-            }?.firstOrNull()
+            }
             listener.onCityUpdated(city)
         }
     }
