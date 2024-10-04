@@ -62,10 +62,10 @@ android {
 dependencies {
 
     // Google maps
-    implementation("com.google.android.gms:play-services-maps:18.2.0")
-    implementation("com.google.android.gms:play-services-location:21.2.0")
+    implementation(libs.play.services.maps)
+    implementation(libs.play.services.location)
 // Google maps for compose
-    implementation("com.google.maps.android:maps-compose:2.8.0")
+    implementation(libs.maps.compose)
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
@@ -85,9 +85,10 @@ dependencies {
     androidTestImplementation(libs.androidx.ui.test.junit4)
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
-    implementation("androidx.navigation:navigation-compose:2.7.7")
-    implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.7.0")
-    implementation ("com.squareup.retrofit2:retrofit:2.9.0")
-    implementation ("com.squareup.retrofit2:converter-gson:2.9.0")
-
+    implementation(libs.androidx.navigation.compose)
+    implementation(libs.androidx.lifecycle.viewmodel.compose)
+    implementation (libs.retrofit)
+    implementation (libs.converter.gson)
+    implementation(libs.coil.kt.coil.compose)
+    implementation(libs.picasso)
 }
