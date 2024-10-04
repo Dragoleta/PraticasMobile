@@ -1,6 +1,5 @@
 package com.weatherapp.ui.pages
 
-import android.content.Context
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -10,10 +9,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.AccountBox
-import androidx.compose.material.icons.filled.LocationOn
-import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -54,14 +49,19 @@ fun HomePage(
                     fontSize = 20.sp)
             }
         }
-        if (viewModel.city == null || viewModel.city!!.forecast == null) return
 
-        LazyColumn {
-            items(viewModel.city!!.forecast!!) {
-                forecast -> ForecastItem(forecast, onClick = { }, modifier = modifier)
+        viewModel.city?.forecast?.let { forecasts ->
+            LazyColumn {
+                items(forecasts) { forecast ->
+                    ForecastItem(
+                        forecast = forecast,
+                        onClick = { },
+                        modifier = modifier
+                    )
+                }
             }
-
         }
+
 
     }
 }
