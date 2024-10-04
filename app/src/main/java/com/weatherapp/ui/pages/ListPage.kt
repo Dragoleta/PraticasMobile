@@ -13,6 +13,8 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Close
+import androidx.compose.material.icons.outlined.Favorite
+import androidx.compose.material.icons.outlined.FavoriteBorder
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
@@ -38,6 +40,7 @@ fun CityItem(
     onClose: () -> Unit,
     modifier: Modifier = Modifier
 ) {
+    val icon = if (city.isMonitored) Icons.Outlined.Favorite else  Icons.Outlined.FavoriteBorder
 
     Row(
         modifier = modifier.fillMaxWidth().padding(8.dp).clickable { onClick() },
@@ -58,6 +61,11 @@ fun CityItem(
                 text = city.weather?.desc?: "Loading...",
                 fontSize = 16.sp)
         }
+        Icon(
+            imageVector = icon,
+            contentDescription = "Monitor?",
+            modifier = Modifier.size(32.dp)
+        )
         IconButton(onClick = onClose) {
             Icon(Icons.Filled.Close, contentDescription = "Close")
         }

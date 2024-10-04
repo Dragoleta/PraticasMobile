@@ -9,6 +9,10 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.outlined.Favorite
+import androidx.compose.material.icons.outlined.FavoriteBorder
+import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -20,12 +24,14 @@ import coil.compose.AsyncImage
 import com.weatherapp.R
 import com.weatherapp.model.MainViewModel
 import com.weatherapp.model.Forecast
+import com.weatherapp.repo.Repository
 import java.text.DecimalFormat
 
 @Composable
 fun HomePage(
     modifier: Modifier = Modifier,
     viewModel: MainViewModel,
+    repository: Repository
 ) {
     Column {
         Row {
@@ -36,11 +42,23 @@ fun HomePage(
                 contentDescription = "Image"
             )
             val format = DecimalFormat("#.0")
+            var isMonitored = viewModel.city?.isMonitored
+            val icon = if (viewModel.city?.isMonitored == true) Icons.Outlined.Favorite else  Icons.Outlined.FavoriteBorder
 
             Column {
+
                 Spacer(modifier = Modifier.size(20.dp))
                 Text(text = viewModel.city?.name?:"Selecione uma cidade...",
                     fontSize = 24.sp)
+                Icon(
+                    imageVector = icon,
+                    contentDescription = "Monitor?",
+                    modifier = Modifier.size(32.dp)
+                        .clickable (enabled = viewModel.city != null ) {
+                            isMonitored = !isMonitored!!
+                            repository.update(viewModel.city!!.copy(isMonitored = isMonitored!!))
+                        }
+                )
                 Spacer(modifier = Modifier.size(10.dp))
                 Text(text = viewModel.city?.weather?.desc?:"...",
                     fontSize = 20.sp)
