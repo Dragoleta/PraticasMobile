@@ -7,6 +7,7 @@ import com.weatherapp.model.City
 import com.weatherapp.model.Forecast
 import com.weatherapp.model.User
 import com.weatherapp.model.Weather
+import android.util.Log
 
 class Repository(private var listener: Listener): FBDatabase.Listener {
     private var fbDb = FBDatabase (this)
@@ -20,6 +21,7 @@ class Repository(private var listener: Listener): FBDatabase.Listener {
     }
 
     fun addCity(name: String) {
+        Log.d("Repository", "Add city called")
         weatherService.getLocation(name) { lat, lng ->
             fbDb.add(City(name = name,
                 location = LatLng(lat?:0.0, lng?:0.0)))
@@ -27,6 +29,7 @@ class Repository(private var listener: Listener): FBDatabase.Listener {
     }
 
     fun addCity(lat: Double, lng: Double) {
+        Log.d("Repository", "Add city called")
         weatherService.getName(lat, lng) { name ->
             fbDb.add( City( name = name?:"NOT_FOUND",
                 location = LatLng(lat, lng)))
@@ -56,6 +59,13 @@ class Repository(private var listener: Listener): FBDatabase.Listener {
                     imgUrl = ("https:" + it.day?.condition?.icon)
                 )
             }
+            listener.onCityUpdated(city)
+        }
+    }
+
+    fun loadBitmap(city: City) {
+        weatherService.getBitmap(city.weather!!.imgUrl) { bitmap ->
+            city.weather!!.bitmap = bitmap
             listener.onCityUpdated(city)
         }
     }
