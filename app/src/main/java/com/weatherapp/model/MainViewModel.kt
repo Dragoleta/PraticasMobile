@@ -18,7 +18,7 @@ class MainViewModel : ViewModel(), Repository.Listener {
 
     var city: City?
         get() = _city.value
-        set(tmp) { _city = mutableStateOf(tmp?.copy()) }
+        set(tmp) { _city.value = tmp?.copy() }
 
     val cities : List<City>
         get() = _cities.values.toList()
