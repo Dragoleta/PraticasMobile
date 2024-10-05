@@ -62,4 +62,8 @@ class MainViewModel : ViewModel(), Repository.Listener {
         }
     }
 
+    override fun onUserSignOut() {
+        TODO("Not yet implemented")
+    }
+
 }

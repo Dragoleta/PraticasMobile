@@ -2,6 +2,7 @@ package com.weatherapp.activities
 
 import android.Manifest
 import android.app.Activity
+import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.rememberLauncherForActivityResult
@@ -20,6 +21,7 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
+import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -27,14 +29,13 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.core.util.Consumer
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
-import com.google.android.gms.maps.model.LatLng
 import com.google.firebase.Firebase
 import com.google.firebase.auth.auth
 import com.weatherapp.model.MainViewModel
-import com.weatherapp.db.repo.Repository
-import com.weatherapp.model.City
+import com.weatherapp.repo.Repository
 import com.weatherapp.ui.CityDialog
 import com.weatherapp.ui.nav.BottomNavBar
 import com.weatherapp.ui.nav.BottomNavItem
@@ -50,13 +51,26 @@ class MainActivity : ComponentActivity() {
 
             val navController = rememberNavController()
             val viewModel : MainViewModel by viewModels()
-            var showDialog by remember { mutableStateOf(false)
-                }
+            var showDialog by remember { mutableStateOf(false) }
             val repo = remember { Repository(viewModel) }
             val context = LocalContext.current
             val currentRoute = navController.currentBackStackEntryAsState()
             val showButton = currentRoute.value?.destination?.route != BottomNavItem.MapPage.route
             val launcher = rememberLauncherForActivityResult(contract = ActivityResultContracts.RequestPermission(), onResult = {} )
+
+            DisposableEffect(Unit) {
+                val listener = Consumer<Intent> { intent ->
+                    val name = intent.getStringExtra("city")
+                    val city = viewModel.cities.find { it.name == name }
+                    viewModel.city = city
+                    if (city != null) {
+                        repo.loadWeather(city)
+                        repo.loadForecast(city)
+                    }
+                }
+                addOnNewIntentListener(listener)
+                onDispose { removeOnNewIntentListener(listener) }
+            }
 
             WeatherAppTheme {
 
@@ -77,7 +91,7 @@ class MainActivity : ComponentActivity() {
                 Scaffold(
                     topBar = {
                         TopAppBar(
-                            title = { Text("Bem-vindo/a ${viewModel.user.name}") },
+                            title = { Text("Welcome ${viewModel.user.name}") },
                             actions = {
                                 IconButton( onClick = { Firebase.auth.signOut() } ) {
                                     Icon(
@@ -95,7 +109,7 @@ class MainActivity : ComponentActivity() {
                     floatingActionButton = {
                         if (showButton) {
                             FloatingActionButton(onClick = { showDialog = true }) {
-                                Icon(Icons.Default.Add, contentDescription = "Adicionar")
+                                Icon(Icons.Default.Add, contentDescription = "Add")
                             }
                         }
                     }
