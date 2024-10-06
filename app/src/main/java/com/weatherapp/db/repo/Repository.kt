@@ -1,5 +1,6 @@
-package com.weatherapp.repo
+package com.weatherapp.db.repo
 
+import android.content.Context
 import com.google.android.gms.maps.model.LatLng
 import com.weatherapp.api.WeatherService
 import com.weatherapp.db.FBDatabase
@@ -8,10 +9,12 @@ import com.weatherapp.model.Forecast
 import com.weatherapp.model.User
 import com.weatherapp.model.Weather
 import android.util.Log
+import com.weatherapp.db.localDB.LocalDB
 
-class Repository(private var listener: Listener): FBDatabase.Listener {
+class Repository(context : Context, private var listener: Listener): FBDatabase.Listener {
     private var fbDb = FBDatabase (this)
     private var weatherService = WeatherService()
+    private var localDB: LocalDB = LocalDB(context, databaseName = "local.db")
 
     interface Listener {
         fun onUserLoaded(user: User)
@@ -21,19 +24,28 @@ class Repository(private var listener: Listener): FBDatabase.Listener {
         fun onUserSignOut()
     }
 
+    init {
+        localDB.getCities {
+            fbDb.add(it)
+        }
+    }
+
     fun addCity(name: String) {
         Log.d("Repository", "Add city called")
         weatherService.getLocation(name) { lat, lng ->
-            fbDb.add(City(name = name,
-                location = LatLng(lat?:0.0, lng?:0.0)))
+            val city = City(name = name, location = LatLng(lat?:0.0, lng?:0.0))
+            localDB.insert(city)
+            fbDb.add(city)
         }
     }
 
     fun addCity(lat: Double, lng: Double) {
         Log.d("Repository", "Add city called")
         weatherService.getName(lat, lng) { name ->
-            fbDb.add( City( name = name?:"NOT_FOUND",
-                location = LatLng(lat, lng)))
+            val city = City( name = name?:"NOT_FOUND",
+                location = LatLng(lat, lng))
+            localDB.insert( city )
+            fbDb.add( city )
         }
     }
 
@@ -72,6 +84,7 @@ class Repository(private var listener: Listener): FBDatabase.Listener {
     }
 
     fun remove(city: City) {
+        localDB.delete(city)
         fbDb.remove(city)
     }
 
@@ -80,6 +93,7 @@ class Repository(private var listener: Listener): FBDatabase.Listener {
     }
 
     fun update(city: City) {
+        localDB.update(city)
         fbDb.update(city)
     }
 

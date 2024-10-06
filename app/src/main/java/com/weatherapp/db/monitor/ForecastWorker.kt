@@ -1,4 +1,4 @@
-package com.weatherapp.monitor
+package com.weatherapp.db.monitor
 
 import android.app.NotificationChannel
 import android.app.NotificationManager

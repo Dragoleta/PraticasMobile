@@ -10,7 +10,7 @@ import com.weatherapp.ui.pages.HomePage
 import com.weatherapp.ui.pages.ListPage
 import com.weatherapp.model.MainViewModel
 import com.weatherapp.ui.pages.MapPage
-import com.weatherapp.repo.Repository
+import com.weatherapp.db.repo.Repository
 
 @Composable
 fun MainNavHost(navController: NavHostController, viewModel: MainViewModel,

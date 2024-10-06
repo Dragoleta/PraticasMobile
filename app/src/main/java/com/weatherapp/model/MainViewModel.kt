@@ -6,7 +6,7 @@ import androidx.lifecycle.ViewModel
 import com.google.firebase.Firebase
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.auth
-import com.weatherapp.repo.Repository
+import com.weatherapp.db.repo.Repository
 
 class MainViewModel : ViewModel(), Repository.Listener {
 

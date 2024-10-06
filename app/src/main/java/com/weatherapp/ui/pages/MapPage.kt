@@ -20,7 +20,7 @@ import com.google.maps.android.compose.Marker
 import com.google.maps.android.compose.MarkerState
 import com.google.maps.android.compose.rememberCameraPositionState
 import com.weatherapp.model.MainViewModel
-import com.weatherapp.repo.Repository
+import com.weatherapp.db.repo.Repository
 
 
 @Composable

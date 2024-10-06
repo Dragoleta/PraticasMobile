@@ -24,7 +24,7 @@ import coil.compose.AsyncImage
 import com.weatherapp.R
 import com.weatherapp.model.MainViewModel
 import com.weatherapp.model.Forecast
-import com.weatherapp.repo.Repository
+import com.weatherapp.db.repo.Repository
 import java.text.DecimalFormat
 
 @Composable

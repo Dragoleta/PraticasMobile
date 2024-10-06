@@ -1,4 +1,4 @@
-package com.weatherapp.monitor
+package com.weatherapp.db.monitor
 
 import android.app.NotificationManager
 import android.content.Context
@@ -8,7 +8,7 @@ import androidx.work.PeriodicWorkRequestBuilder
 import androidx.work.WorkManager
 import com.weatherapp.model.City
 import com.weatherapp.model.User
-import com.weatherapp.repo.Repository
+import com.weatherapp.db.repo.Repository
 import java.util.concurrent.TimeUnit
 
 class ForecastMonitor (context: Context) : Repository.Listener {

@@ -35,7 +35,7 @@ import androidx.navigation.compose.rememberNavController
 import com.google.firebase.Firebase
 import com.google.firebase.auth.auth
 import com.weatherapp.model.MainViewModel
-import com.weatherapp.repo.Repository
+import com.weatherapp.db.repo.Repository
 import com.weatherapp.ui.CityDialog
 import com.weatherapp.ui.nav.BottomNavBar
 import com.weatherapp.ui.nav.BottomNavItem
@@ -52,8 +52,8 @@ class MainActivity : ComponentActivity() {
             val navController = rememberNavController()
             val viewModel : MainViewModel by viewModels()
             var showDialog by remember { mutableStateOf(false) }
-            val repo = remember { Repository(viewModel) }
             val context = LocalContext.current
+            val repo = remember { Repository(context = context, listener = viewModel) }
             val currentRoute = navController.currentBackStackEntryAsState()
             val showButton = currentRoute.value?.destination?.route != BottomNavItem.MapPage.route
             val launcher = rememberLauncherForActivityResult(contract = ActivityResultContracts.RequestPermission(), onResult = {} )

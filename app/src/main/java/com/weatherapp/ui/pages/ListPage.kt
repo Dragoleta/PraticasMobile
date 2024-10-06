@@ -28,7 +28,7 @@ import androidx.navigation.NavHostController
 import coil.compose.AsyncImage
 import com.weatherapp.R
 import com.weatherapp.model.MainViewModel
-import com.weatherapp.repo.Repository
+import com.weatherapp.db.repo.Repository
 import com.weatherapp.model.City
 import com.weatherapp.ui.nav.BottomNavItem
 
