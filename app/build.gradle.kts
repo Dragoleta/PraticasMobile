@@ -5,6 +5,7 @@ plugins {
     alias(libs.plugins.jetbrainsKotlinAndroid)
     id ("com.google.android.libraries.mapsplatform.secrets-gradle-plugin")
     alias(libs.plugins.googleGmsGoogleServices)
+    id("com.google.devtools.ksp") version "1.9.10-1.0.13"
 }
 
 android {
@@ -50,7 +51,7 @@ android {
         buildConfig = true
     }
     composeOptions {
-        kotlinCompilerExtensionVersion = "1.5.1"
+        kotlinCompilerExtensionVersion = "1.5.3"
     }
     packaging {
         resources {
@@ -60,7 +61,6 @@ android {
 }
 
 dependencies {
-
     // Google maps
     implementation(libs.play.services.maps)
     implementation(libs.play.services.location)
@@ -92,4 +92,7 @@ dependencies {
     implementation (libs.converter.gson)
     implementation(libs.coil.kt.coil.compose)
     implementation(libs.picasso)
+    implementation(libs.androidx.room.runtime)
+    implementation(libs.androidx.room.ktx)
+    ksp(libs.androidx.room.compiler)
 }
